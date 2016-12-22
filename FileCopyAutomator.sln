@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCopyAutomater", "FileCopyAutomater\FileCopyAutomater.csproj", "{372DC538-1A05-471D-80D0-85C81349C953}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCopyAutomator", "FileCopyAutomater\FileCopyAutomator.csproj", "{372DC538-1A05-471D-80D0-85C81349C953}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
