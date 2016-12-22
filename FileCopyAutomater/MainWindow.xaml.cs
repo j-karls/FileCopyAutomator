@@ -66,7 +66,8 @@ namespace FileCopyAutomater
 
         private void button_Edit_Click(object sender, RoutedEventArgs e)
         {
-
+            var popup = new ConfigureSyncWindow(SelectedFile);
+            popup.ShowDialog();
         }
 
         private void button_Remove_Click(object sender, RoutedEventArgs e)

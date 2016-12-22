@@ -55,9 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigureSyncWindow.xaml.cs">
+      <DependentUpon>ConfigureSyncWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SyncDirectory.cs" />
     <Compile Include="SyncFile.cs" />
     <Page Include="AddNewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfigureSyncWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
