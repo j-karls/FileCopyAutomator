@@ -7,15 +7,26 @@ namespace FileCopyAutomater
     {
         public SyncData(string sourcePath, string targetPath, bool overwrites)
         {
-            if (File.Exists(sourcePath) && File.Exists(targetPath))
+            if (IsFile(sourcePath) && IsFile(targetPath))
             {
-                SyncMember = new SyncFile(sourcePath);
-                IsDirectory = false;
+                SyncMember = new SyncFile(sourcePath, targetPath);
+                MemberIsDirectory = false;
             }
-            else if (Directory.Exists(sourcePath) && Directory.Exists(targetPath))
+            else if (IsDirectory(sourcePath) && IsFile(targetPath))
             {
-                SyncMember = new SyncDirectory(sourcePath);
-                IsDirectory = true;
+                throw new ArgumentException("Cannot save a directory within a file");
+            }
+            else if (IsFile(sourcePath) && IsDirectory(targetPath))
+            {
+                string sourceFileName = Path.GetFileName(sourcePath);
+                string fullTargetPath = Path.Combine(targetPath, sourceFileName);
+                SyncMember = new SyncFile(sourcePath, fullTargetPath);
+                MemberIsDirectory = false;
+            }
+            else if (IsDirectory(sourcePath) && IsDirectory(targetPath))
+            {
+                SyncMember = new SyncDirectory(sourcePath, targetPath);
+                MemberIsDirectory = true;
             }
             else
             {
@@ -23,8 +34,35 @@ namespace FileCopyAutomater
             }
         }
 
+        private bool IsDirectory(string directoryPath)
+        {
+            return Directory.Exists(directoryPath);
+        }
+
+        private bool IsFile(string filePath)
+        {
+            FileInfo fi = null;
+            try
+            {
+                fi = new FileInfo(filePath);
+            }
+            catch (ArgumentException) { }
+            catch (PathTooLongException) { }
+            catch (NotSupportedException) { }
+            if (ReferenceEquals(fi, null))
+            {
+                // File path not valid
+                return false;
+            }
+            else
+            {
+                // File path valid
+                return true;
+            }
+        }
+
         public IFileAndDirectoryData SyncMember { get; private set; }
-        public bool IsDirectory { get; private set; }
+        public bool MemberIsDirectory { get; private set; }
         public bool Overwrites { get; set; }
 
         public string OverwritesToString

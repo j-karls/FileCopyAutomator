@@ -30,33 +30,81 @@ namespace FileCopyAutomater
         private MainWindow _mainWindow;
         private bool _multipleItemsSelected = false;
         private string[] _multiSelectedItems;
+        private bool? _sourceIsFile = null;
+        private bool? _targetIsFile = null;
 
-        private void button_Browse1_Click(object sender, RoutedEventArgs e)
+        private void button_BrowseSourceFile_Click(object sender, RoutedEventArgs e)
         {
             string[] pathArray = BrowseFiles(true);
 
-            if (pathArray.Length > 1)
+            // Has user selected anything?
+            if (pathArray != null)
             {
-                var text = new StringBuilder();
-                text.Append(pathArray.First());
-                for (int i = 1; i < pathArray.Length; i++)
+                _sourceIsFile = true;
+
+                // Has user selected multiple files?
+                if (pathArray.Length > 1)
                 {
-                    text.Append(", " + pathArray[i]);
+                    textBox_Source.Text = BuildTextForTextBox(pathArray);
+                    _multipleItemsSelected = true;
+                    _multiSelectedItems = pathArray;
                 }
-                textBox_Source.Text = text.ToString();
-                _multipleItemsSelected = true;
-                _multiSelectedItems = pathArray;
-            }
-            else
-            {
-                textBox_Source.Text = pathArray.First();
-                _multipleItemsSelected = false;
+                else
+                {
+                    textBox_Source.Text = pathArray.First();
+                    _multipleItemsSelected = false;
+                }
             }
         }
 
-        private void button_Browse2_Click(object sender, RoutedEventArgs e)
+        private void button_BrowseSourceFolder_Click(object sender, RoutedEventArgs e)
         {
-            textBox_Target.Text = BrowseFiles(false).First();
+            string path = BrowseFolders();
+            if (path != null)
+            {
+                _sourceIsFile = false;
+                _multipleItemsSelected = false;
+                textBox_Source.Text = path;
+            }
+        }
+
+        private string BrowseFolders()
+        {
+            System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog();
+            dlg.ShowNewFolderButton = true;
+            dlg.ShowDialog();
+            return dlg.SelectedPath;
+        }
+
+        private string BuildTextForTextBox(string[] pathArray)
+        {
+            var text = new StringBuilder();
+            text.Append(pathArray.First());
+            for (int i = 1; i < pathArray.Length; i++)
+            {
+                text.Append(", " + pathArray[i]);
+            }
+            return text.ToString();
+        }
+
+        private void button_BrowseTargetFile_Click(object sender, RoutedEventArgs e)
+        {
+            string path = BrowseFiles(false).First();
+            if (path != null)
+            {
+                _targetIsFile = true;
+                textBox_Target.Text = path;
+            }
+        }
+
+        private void button_BrowseTargetFolder_Click(object sender, RoutedEventArgs e)
+        {
+            string path = BrowseFolders();
+            if (path != null)
+            {
+                _targetIsFile = false;
+                textBox_Target.Text = path;
+            }
         }
 
         private string[] BrowseFiles(bool allowMultiSelect)
@@ -72,12 +120,38 @@ namespace FileCopyAutomater
             }
             else
             {
-                return new string[0];
+                return null;
             }
         }
 
         private void button_Add_Click(object sender, RoutedEventArgs e)
         {
+            // Valid choices
+            if (_sourceIsFile == true && _targetIsFile == true && _multipleItemsSelected == false)
+            {
+                // File-to-file sync
+            }
+            else if (_sourceIsFile == false && _targetIsFile == false)
+            {
+                // Folder-to-folder sync
+
+            }
+            else if (_sourceIsFile == true && _targetIsFile == false)
+            {
+                // File-to-folder sync: multiselect is only allowed in this case
+                if (_multipleItemsSelected == true)
+                {
+
+                }
+            }
+            else
+            {
+                // Invalid selection
+                MessageBox.Show(IdentifyUserError());
+            }
+
+
+
             if (_multipleItemsSelected)
             {
                 foreach (string file in _multiSelectedItems)
@@ -89,6 +163,18 @@ namespace FileCopyAutomater
             {
                 _mainWindow.AllFiles.Add(new SyncData(textBox_Source.Text, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value));
             }
+        }
+
+        private string IdentifyUserError()
+        {
+            if (_sourceIsFile == true && _targetIsFile == true && _multipleItemsSelected == true)
+            {
+
+            }
+
+
+
+
         }
 
         private void button_Cancel_Click(object sender, RoutedEventArgs e)

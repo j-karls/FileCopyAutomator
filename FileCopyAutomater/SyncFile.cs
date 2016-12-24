@@ -10,15 +10,26 @@ namespace FileCopyAutomater
         public string Name { get; set; }
         public long Size { get; set; }
 
-        public SyncFile(string path)
+        public SyncFile(string sourcePath, string targetPath)
         {
-            SourcePath = Path.GetFullPath(path);
-            Name = Path.GetFileName(SourcePath);
+            SourcePath = Path.GetFullPath(sourcePath);
+            TargetPath = Path.GetFullPath(targetPath);
+            Name = Path.GetFileName(TargetPath);
             Size = new FileInfo(SourcePath).Length;
         }
 
-        public void Sync(bool canOverwrite)
+        public void Sync(bool overwrite)
         {
+            if (overwrite)
+            {
+                File.Delete(TargetPath);
+            }
+            if (!File.Exists(TargetPath))
+            {
+                File.Create(TargetPath);
+            }
+            File.Copy(SourcePath, TargetPath, overwrite);
+
             //string fileName = "test.txt";
             //string sourcePath = @"C:\Users\Public\TestFolder";
             //string targetPath = @"C:\Users\Public\TestFolder\SubDir";

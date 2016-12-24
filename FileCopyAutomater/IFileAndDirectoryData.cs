@@ -7,6 +7,6 @@
         string Name { get; set; }
         long Size { get; set; }
 
-        void Sync(bool canOverwrite);
+        void Sync(bool overwrite);
     }
 }

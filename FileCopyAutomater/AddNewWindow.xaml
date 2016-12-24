@@ -5,18 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileCopyAutomater"
         mc:Ignorable="d"
-        Title="Add New File to Sync" Height="204" Width="400">
+        Title="Add New File to Sync" Height="210.59" Width="475.408">
     <Grid Margin="0,0,-0.4,1">
         <Label x:Name="label" Content="Chose source path and target path" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272"/>
         <Label x:Name="label1" Content="Target:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="66"/>
-        <Button x:Name="button_Browse1" Content="Browse..." Margin="316,45,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="68" Click="button_Browse1_Click"/>
-        <Button x:Name="button_Browse2" Content="Browse..." HorizontalAlignment="Left" Margin="316,76,0,0" VerticalAlignment="Top" Width="68" Height="23" Click="button_Browse2_Click"/>
-        <TextBox x:Name="textBox_Source" HorizontalAlignment="Left" Height="23" Margin="81,45,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="230"/>
-        <TextBox x:Name="textBox_Target" HorizontalAlignment="Left" Height="23" Margin="81,76,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="230"/>
+        <Button x:Name="button_BrowseSourceFile" Content="File..." Margin="316,45,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="68" Click="button_BrowseSourceFile_Click"/>
+        <Button x:Name="button_BrowseTargetFile" Content="File..." HorizontalAlignment="Left" Margin="316,76,0,0" VerticalAlignment="Top" Width="68" Height="23" Click="button_BrowseTargetFile_Click"/>
+        <TextBox x:Name="textBox_Source" HorizontalAlignment="Left" Height="23" Margin="81,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="230"/>
+        <TextBox x:Name="textBox_Target" HorizontalAlignment="Left" Height="23" Margin="81,76,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="230"/>
         <Label x:Name="label_Copy" Content="Source:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="66"/>
-        <Button x:Name="button_Add" Content="Add" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Width="125" Click="button_Add_Click"/>
-        <Button x:Name="button_Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="259,144,0,0" VerticalAlignment="Top" Width="125" Click="button_Cancel_Click"/>
-        <CheckBox x:Name="checkBox_CanOverwrite" Content="Overwrites" HorizontalAlignment="Left" Margin="15,113,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button_Add" Content="Add" HorizontalAlignment="Left" Margin="10,151,0,0" VerticalAlignment="Top" Width="125" Click="button_Add_Click"/>
+        <Button x:Name="button_Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="259,151,0,0" VerticalAlignment="Top" Width="125" Click="button_Cancel_Click"/>
+        <CheckBox x:Name="checkBox_CanOverwrite" Content="Overwrite (?)" ToolTip="If folder-to-folder sync, the target folder is always emptied prior to syncing. If it's file-to-file or file(s)-to-folder sync, the files in target are always deleted prior to sync." HorizontalAlignment="Left" Margin="15,113,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button_BrowseSourceFolder" Content="Folder..." Margin="389,45,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="68" Click="button_BrowseSourceFolder_Click"/>
+        <Button x:Name="button_BrowseTargetFolder" Content="Folder..." Margin="389,76,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="68" Click="button_BrowseTargetFolder_Click"/>
 
     </Grid>
 </Window>
