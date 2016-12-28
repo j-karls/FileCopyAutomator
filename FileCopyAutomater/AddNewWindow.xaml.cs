@@ -130,10 +130,12 @@ namespace FileCopyAutomater
             if (_sourceIsFile == true && _targetIsFile == true && _multipleItemsSelected == false)
             {
                 // File-to-file sync
+                _mainWindow.AllFiles.Add(new SyncData(textBox_Source.Text, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value, SyncType.FileToFile));
             }
             else if (_sourceIsFile == false && _targetIsFile == false)
             {
                 // Folder-to-folder sync
+                _mainWindow.AllFiles.Add(new SyncData(textBox_Source.Text, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value, SyncType.FolderToFolder));
 
             }
             else if (_sourceIsFile == true && _targetIsFile == false)
@@ -141,7 +143,14 @@ namespace FileCopyAutomater
                 // File-to-folder sync: multiselect is only allowed in this case
                 if (_multipleItemsSelected == true)
                 {
-
+                    foreach (string file in _multiSelectedItems)
+                    {
+                        _mainWindow.AllFiles.Add(new SyncData(file, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value, SyncType.FileToFolder));
+                    }
+                }
+                else
+                {
+                    _mainWindow.AllFiles.Add(new SyncData(textBox_Source.Text, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value, SyncType.FileToFolder));
                 }
             }
             else
@@ -149,32 +158,23 @@ namespace FileCopyAutomater
                 // Invalid selection
                 MessageBox.Show(IdentifyUserError());
             }
-
-
-
-            if (_multipleItemsSelected)
-            {
-                foreach (string file in _multiSelectedItems)
-                {
-                    _mainWindow.AllFiles.Add(new SyncData(file, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value));
-                }
-            }
-            else
-            {
-                _mainWindow.AllFiles.Add(new SyncData(textBox_Source.Text, textBox_Target.Text, checkBox_CanOverwrite.IsChecked.Value));
-            }
+            this.Close();
         }
 
         private string IdentifyUserError()
         {
             if (_sourceIsFile == true && _targetIsFile == true && _multipleItemsSelected == true)
             {
-
+                return "Target cannot be a file.";
             }
-
-
-
-
+            else if (_sourceIsFile == false && _targetIsFile == true)
+            {
+                return "Target cannot be a file.";
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         private void button_Cancel_Click(object sender, RoutedEventArgs e)

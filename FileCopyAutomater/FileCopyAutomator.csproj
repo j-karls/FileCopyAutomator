@@ -60,8 +60,8 @@
     <Compile Include="ConfigureSyncWindow.xaml.cs">
       <DependentUpon>ConfigureSyncWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SyncDirectory.cs" />
-    <Compile Include="SyncFile.cs" />
+    <Compile Include="SyncFolderToFolder.cs" />
+    <Compile Include="SyncFileToFile.cs" />
     <Page Include="AddNewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

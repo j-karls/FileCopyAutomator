@@ -1,5 +1,12 @@
 ﻿namespace FileCopyAutomater
 {
+    public enum SyncType
+    {
+        FileToFile,
+        FileToFolder,
+        FolderToFolder
+    }
+
     public interface IFileAndDirectoryData
     {
         string SourcePath { get; set; }

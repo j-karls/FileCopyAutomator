@@ -5,28 +5,23 @@ namespace FileCopyAutomater
 {
     public class SyncData
     {
-        public SyncData(string sourcePath, string targetPath, bool overwrites)
+        public SyncData(string sourcePath, string targetPath, bool overwrites, SyncType syncType)
         {
-            if (IsFile(sourcePath) && IsFile(targetPath))
+            Type = syncType;
+
+            if (Type == SyncType.FileToFile && IsFile(sourcePath) && IsFile(targetPath))
             {
-                SyncMember = new SyncFile(sourcePath, targetPath);
-                MemberIsDirectory = false;
+                SyncMember = new SyncFileToFile(sourcePath, targetPath);
             }
-            else if (IsDirectory(sourcePath) && IsFile(targetPath))
-            {
-                throw new ArgumentException("Cannot save a directory within a file");
-            }
-            else if (IsFile(sourcePath) && IsDirectory(targetPath))
+            else if (Type == SyncType.FileToFolder && IsFile(sourcePath) && IsDirectory(targetPath))
             {
                 string sourceFileName = Path.GetFileName(sourcePath);
                 string fullTargetPath = Path.Combine(targetPath, sourceFileName);
-                SyncMember = new SyncFile(sourcePath, fullTargetPath);
-                MemberIsDirectory = false;
+                SyncMember = new SyncFileToFile(sourcePath, fullTargetPath);
             }
-            else if (IsDirectory(sourcePath) && IsDirectory(targetPath))
+            else if (Type == SyncType.FolderToFolder && IsDirectory(sourcePath) && IsDirectory(targetPath))
             {
-                SyncMember = new SyncDirectory(sourcePath, targetPath);
-                MemberIsDirectory = true;
+                SyncMember = new SyncFolderToFolder(sourcePath, targetPath);
             }
             else
             {
@@ -62,12 +57,12 @@ namespace FileCopyAutomater
         }
 
         public IFileAndDirectoryData SyncMember { get; private set; }
-        public bool MemberIsDirectory { get; private set; }
         public bool Overwrites { get; set; }
+        public SyncType Type { get; private set; }
 
         public string OverwritesToString
         {
-            get { return Overwrites?"Yes":"No"; }
+            get { return Overwrites ? "Yes" : "No"; }
         }
 
         public void Sync()

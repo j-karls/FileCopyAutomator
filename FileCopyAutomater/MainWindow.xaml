@@ -36,7 +36,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" x:Name="button_Add" Content="Add" Click="button_Add_Click"/>
-            <Button Grid.Column="1" x:Name="button_Edit" Content="Edit" Click="button_Edit_Click"/>
+            <Button Grid.Column="1" x:Name="button_Edit" Content="Program information" Click="button_Edit_Click"/>
             <Button Grid.Column="2" x:Name="button_Remove" Content="Remove" Click="button_Remove_Click"/>
             <Button Grid.Column="3" x:Name="button_Sync" Content="Sync" Click="button_Sync_Click"/>
         </Grid>
